@@ -1,17 +1,17 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "laranex/better-laravel",
+    "description": "A package which allows you to build a better Laravel Application",
     "keywords": [
-        ":vendor_name",
+        "laranex",
         "laravel",
-        ":package_slug"
+        "better-laravel"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/laranex/better-laravel",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Nay Thu Khant",
+            "email": "naythukhant644@gmail.com",
             "role": "Developer"
         }
     ],
@@ -35,19 +35,19 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Laranex\\BetterLaravel\\": "src/",
+            "Laranex\\BetterLaravel\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "Laranex\\BetterLaravel\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
-        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "clear": "@php vendor/bin/testbench package:purge-better-laravel --ansi",
         "prepare": "@php vendor/bin/testbench package:discover --ansi",
         "build": [
             "@composer run prepare",
@@ -55,7 +55,7 @@
         ],
         "start": [
             "@composer run build",
-            "@php vendor/bin/testbench serve",
+            "@php vendor/bin/testbench serve"
         ],
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
@@ -72,10 +72,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Laranex\\BetterLaravel\\BetterLaravelServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "BetterLaravel": "Laranex\\BetterLaravel\\Facades\\BetterLaravel"
             }
         }
     },
