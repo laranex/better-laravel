@@ -7,7 +7,7 @@ use Laranex\BetterLaravel\Str;
 
 class ControllerGenerator
 {
-    public function generate($controller, $module): string
+    public function generate($controller, $module, $force = false): string
     {
         $controller = Str::controller($controller);
         $module = Str::module($module);
@@ -16,7 +16,7 @@ class ControllerGenerator
         $filename = "{$controller}.php";
         $filePath = "{$directoryPath}/{$filename}";
 
-        if (File::exists($filePath)) {
+        if (File::exists($filePath) && ! $force) {
             return "Feature already exists: {$filename}";
         }
 

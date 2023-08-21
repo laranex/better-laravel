@@ -7,7 +7,7 @@ use Laranex\BetterLaravel\Str;
 
 class FeatureGenerator
 {
-    public function generate($feature, $module): string
+    public function generate($feature, $module, $force = false): string
     {
         $feature = Str::feature($feature);
         $module = Str::module($module);
@@ -16,7 +16,7 @@ class FeatureGenerator
         $filename = "{$feature}.php";
         $filePath = "{$directoryPath}/{$filename}";
 
-        if (File::exists($filePath)) {
+        if (File::exists($filePath) && ! $force) {
             return "Feature already exists: {$filename}";
         }
 
