@@ -2,9 +2,9 @@
 
 namespace Laranex\BetterLaravel;
 
+use Laranex\BetterLaravel\Commands\BetterLaravelCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Laranex\BetterLaravel\Commands\BetterLaravelCommand;
 
 class BetterLaravelServiceProvider extends PackageServiceProvider
 {
