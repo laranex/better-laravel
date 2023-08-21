@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Laranex\BetterLaravel\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class BetterLaravelCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'better-laravel';
 
     public $description = 'My command';
 
