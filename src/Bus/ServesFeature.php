@@ -7,11 +7,7 @@ use Laranex\BetterLaravel\BetterLaravel;
 
 trait ServesFeature
 {
-    /**
-     * @param  mixed  $unit
-     * @return mixed
-     */
-    public function serve($feature, array $arguments = [])
+    public function serve(mixed $feature, array $arguments = []): mixed
     {
         return Bus::dispatchNow(BetterLaravel::getDispatchableUnit($feature, $arguments));
     }
