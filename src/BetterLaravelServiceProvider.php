@@ -4,6 +4,7 @@ namespace Laranex\BetterLaravel;
 
 use Laranex\BetterLaravel\Commands\ControllerMakeCommand;
 use Laranex\BetterLaravel\Commands\FeatureMakeCommand;
+use Laranex\BetterLaravel\Commands\JobMakeCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -22,6 +23,7 @@ class BetterLaravelServiceProvider extends PackageServiceProvider
             ->hasCommands([
                 ControllerMakeCommand::class,
                 FeatureMakeCommand::class,
+                JobMakeCommand::class,
             ]);
     }
 }

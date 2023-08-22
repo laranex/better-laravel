@@ -4,10 +4,20 @@ namespace Laranex\BetterLaravel;
 
 class Decorator
 {
-    public static function getGeneratedOutput(string $path): string
+    public static function getFileGeneratedOutput(string $path): string
     {
-        $relativePath = ltrim(str_replace(base_path(), '', $path), '/');
+        $path = self::getRelativePath($path);
 
-        return "🚀🚀🚀 $relativePath has been successfully generated! 🚀🚀🚀";
+        return "🚀🚀🚀 [$path has been successfully generated!] 🚀🚀🚀";
+    }
+
+    public static function getFileGenerationErrorOutput(string $message): string
+    {
+        return "🚀🚀🚀 [$message] 🚀🚀🚀";
+    }
+
+    public static function getRelativePath(string $path): string
+    {
+        return ltrim(str_replace(base_path(), '', $path), '/');
     }
 }

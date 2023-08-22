@@ -2,12 +2,20 @@
 
 namespace Laranex\BetterLaravel\Generators;
 
+use Exception;
 use Illuminate\Support\Facades\File;
+use Laranex\BetterLaravel\Decorator;
 use Laranex\BetterLaravel\Str;
 
-class ControllerGenerator
+class ControllerGenerator extends Generator
 {
-    public function generate($controller, $module, $force = false): string
+    /**
+     * Generate a controller.
+     *
+     *
+     * @throws Exception
+     */
+    public function generate(string $controller, string $module, bool $force = false): string
     {
         $controller = Str::controller($controller);
         $module = Str::module($module);
@@ -17,7 +25,8 @@ class ControllerGenerator
         $filePath = "{$directoryPath}/{$filename}";
 
         if (File::exists($filePath) && ! $force) {
-            return "Feature already exists: {$filename}";
+            $path = Decorator::getRelativePath($filePath);
+            throw new Exception("$path already exists!");
         }
 
         $stubContents = $this->getStubContents();
@@ -36,12 +45,18 @@ class ControllerGenerator
         return $filePath;
     }
 
-    private function getStubContents()
+    /**
+     * Get the appropriate stub contents.
+     */
+    private function getStubContents(): string
     {
         return File::get(__DIR__.'/stubs/controller.stub');
     }
 
-    private function replacePlaceholders($content, $replacements)
+    /**
+     * Replace placeholders in stubs
+     */
+    private function replacePlaceholders(string $content, array $replacements): string
     {
         foreach ($replacements as $placeholder => $replacement) {
             $content = str_replace("{{{$placeholder}}}", $replacement, $content);

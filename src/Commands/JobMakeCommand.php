@@ -2,18 +2,19 @@
 
 namespace Laranex\BetterLaravel\Commands;
 
-use Laranex\BetterLaravel\Generators\FeatureGenerator;
+use Laranex\BetterLaravel\Generators\JobGenerator;
 
-class FeatureMakeCommand extends BaseCommand
+class JobMakeCommand extends BaseCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    public $signature = 'better:feature
-                        {feature : Feature}
+    public $signature = 'better:job
+                        {job : Job}
                         {module : Module}
+                        {--Q|queue : Make the job queueable}
                         {--F|force : Overwrite existing files}';
 
     /**
@@ -21,7 +22,7 @@ class FeatureMakeCommand extends BaseCommand
      *
      * @var string
      */
-    public $description = 'Create a new feature in a module';
+    public $description = 'Create a new job in a module';
 
     /**
      * Execute the console command.
@@ -29,11 +30,12 @@ class FeatureMakeCommand extends BaseCommand
     public function handle(): int
     {
         try {
-            $feature = $this->argument('feature');
+            $job = $this->argument('job');
             $module = $this->argument('module');
+            $queueable = $this->option('queue');
             $force = $this->option('force');
 
-            $output = (new FeatureGenerator())->generate($feature, $module, $force);
+            $output = (new JobGenerator())->generate($job, $module, $queueable, $force);
 
             $this->printFileGeneratedOutput($output);
         } catch (\Exception $exception) {

@@ -7,21 +7,21 @@ use Illuminate\Support\Facades\File;
 use Laranex\BetterLaravel\Decorator;
 use Laranex\BetterLaravel\Str;
 
-class FeatureGenerator extends Generator
+class JobGenerator extends Generator
 {
     /**
-     * Generate a feature.
+     * Generate a job.
      *
      *
      * @throws Exception
      */
-    public function generate(string $feature, string $module, bool $force = false): string
+    public function generate(string $job, string $module, bool $queueable = false, bool $force = false): string
     {
-        $feature = Str::feature($feature);
+        $job = Str::job($job);
         $module = Str::module($module);
 
-        $directoryPath = app_path("Modules/{$module}/Features");
-        $filename = "{$feature}.php";
+        $directoryPath = app_path("Domains/{$module}/Jobs");
+        $filename = "{$job}.php";
         $filePath = "{$directoryPath}/{$filename}";
 
         if (File::exists($filePath) && ! $force) {
@@ -29,11 +29,11 @@ class FeatureGenerator extends Generator
             throw new Exception("$path already exists!");
         }
 
-        $stubContents = $this->getStubContents();
+        $stubContents = $this->getStubContents($queueable);
 
         $stubContents = $this->replacePlaceholders($stubContents, [
-            'namespace' => "App\\Modules\\{$module}\\Features",
-            'feature' => $feature,
+            'namespace' => "App\\Domains\\{$module}\\Jobs",
+            'job' => $job,
         ]);
 
         if (! File::isDirectory($directoryPath)) {
@@ -48,9 +48,11 @@ class FeatureGenerator extends Generator
     /**
      * Get the appropriate stub contents.
      */
-    private function getStubContents(): string
+    private function getStubContents(bool $queueable): string
     {
-        return File::get(__DIR__.'/stubs/feature.stub');
+        $stubFile = $queueable ? 'job.queueable.stub' : 'job.stub';
+
+        return File::get(__DIR__.'/stubs/'.$stubFile);
     }
 
     /**
