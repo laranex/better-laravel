@@ -16,6 +16,11 @@ class Decorator
         return "🚀🚀🚀 [$message] 🚀🚀🚀";
     }
 
+    public static function getDisableRoutesWarning(): string
+    {
+        return '🚀🚀🚀 [Config better-myanmar.enable_routes has been disabled and this route file wont work, you might want to enable it!] 🚀🚀🚀';
+    }
+
     public static function getRelativePath(string $path): string
     {
         return ltrim(str_replace(base_path(), '', $path), '/');

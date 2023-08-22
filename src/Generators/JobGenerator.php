@@ -4,7 +4,6 @@ namespace Laranex\BetterLaravel\Generators;
 
 use Exception;
 use Illuminate\Support\Facades\File;
-use Laranex\BetterLaravel\Decorator;
 use Laranex\BetterLaravel\Str;
 
 class JobGenerator extends Generator
@@ -15,24 +14,21 @@ class JobGenerator extends Generator
      *
      * @throws Exception
      */
-    public function generate(string $job, string $module, bool $queueable = false, bool $force = false): string
+    public function generate(string $job, string $domain, bool $queueable = false, bool $force = false): string
     {
         $job = Str::job($job);
-        $module = Str::module($module);
+        $domain = Str::domain($domain);
 
-        $directoryPath = app_path("Domains/{$module}/Jobs");
+        $directoryPath = app_path("Domains/{$domain}/Jobs");
         $filename = "{$job}.php";
         $filePath = "{$directoryPath}/{$filename}";
 
-        if (File::exists($filePath) && ! $force) {
-            $path = Decorator::getRelativePath($filePath);
-            throw new Exception("$path already exists!");
-        }
+        $this->throwIfFileExists($filePath, $force);
 
         $stubContents = $this->getStubContents($queueable);
 
         $stubContents = $this->replacePlaceholders($stubContents, [
-            'namespace' => "App\\Domains\\{$module}\\Jobs",
+            'namespace' => "App\\Domains\\{$domain}\\Jobs",
             'job' => $job,
         ]);
 
@@ -48,7 +44,7 @@ class JobGenerator extends Generator
     /**
      * Get the appropriate stub contents.
      */
-    private function getStubContents(bool $queueable): string
+    public function getStubContents(bool $queueable): string
     {
         $stubFile = $queueable ? 'job.queueable.stub' : 'job.stub';
 
