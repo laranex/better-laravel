@@ -32,11 +32,7 @@ class ControllerGenerator extends Generator
             'controller' => $controller,
         ]);
 
-        if (! File::isDirectory($directoryPath)) {
-            File::makeDirectory($directoryPath, 0755, true);
-        }
-
-        File::put($filePath, $stubContents);
+        $this->generateFile($directoryPath, $filePath, $stubContents);
 
         return $filePath;
     }

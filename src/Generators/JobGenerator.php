@@ -32,11 +32,7 @@ class JobGenerator extends Generator
             'job' => $job,
         ]);
 
-        if (! File::isDirectory($directoryPath)) {
-            File::makeDirectory($directoryPath, 0755, true);
-        }
-
-        File::put($filePath, $stubContents);
+        $this->generateFile($directoryPath, $filePath, $stubContents);
 
         return $filePath;
     }

@@ -36,4 +36,16 @@ abstract class Generator
             throw new Exception("$path already exists!");
         }
     }
+
+    /**
+     * Generate the replaced stub contents into a file
+     */
+    public function generateFile(string $directoryPath, string $filePath, string $stubContents): void
+    {
+        if (! File::isDirectory($directoryPath)) {
+            File::makeDirectory($directoryPath, 0755, true);
+        }
+
+        File::put($filePath, $stubContents);
+    }
 }
