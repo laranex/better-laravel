@@ -52,16 +52,4 @@ class ControllerGenerator extends Generator
     {
         return File::get(__DIR__.'/stubs/controller.stub');
     }
-
-    /**
-     * Replace placeholders in stubs
-     */
-    private function replacePlaceholders(string $content, array $replacements): string
-    {
-        foreach ($replacements as $placeholder => $replacement) {
-            $content = str_replace("{{{$placeholder}}}", $replacement, $content);
-        }
-
-        return $content;
-    }
 }
