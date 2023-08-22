@@ -2,6 +2,8 @@
 
 namespace Laranex\BetterLaravel;
 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
 use Laranex\BetterLaravel\Commands\ControllerMakeCommand;
 use Laranex\BetterLaravel\Commands\FeatureMakeCommand;
 use Laranex\BetterLaravel\Commands\JobMakeCommand;
@@ -25,5 +27,27 @@ class BetterLaravelServiceProvider extends PackageServiceProvider
                 FeatureMakeCommand::class,
                 JobMakeCommand::class,
             ]);
+    }
+
+    public function packageRegistered(): void
+    {
+        $this->registerRoutes();
+    }
+
+    public function registerRoutes(): void
+    {
+        $webRoutes = File::glob(base_path('routes/web/*.php'));
+        $apiRoutes = File::glob(base_path('routes/api/*.php'));
+
+        foreach ($webRoutes as $route) {
+            Route::middleware('web')
+                ->group($route);
+        }
+
+        foreach ($apiRoutes as $route) {
+            Route::prefix('api')
+                ->middleware('api')
+                ->group($route);
+        }
     }
 }
