@@ -13,7 +13,7 @@ class RouteMakeCommand extends BaseCommand
      */
     public $signature = 'better:route
                         {route : Route file name}
-                        {versionOrDirectory : API version or Directory}
+                        {versionOrDirectory? : API version or Directory}
                         {--API|api : Generate API route file}
                         {--F|force : Overwrite existing files}';
 
