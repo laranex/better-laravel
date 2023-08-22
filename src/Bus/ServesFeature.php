@@ -2,13 +2,19 @@
 
 namespace Laranex\BetterLaravel\Bus;
 
-use Illuminate\Support\Facades\Bus;
-use Laranex\BetterLaravel\BetterLaravel;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 trait ServesFeature
 {
+    use DispatchesJobs, Dispatcher;
+
+    /**
+     * Serve the given feature with the given arguments.
+     *
+     * @param  string  $feature
+     */
     public function serve(mixed $feature, array $arguments = []): mixed
     {
-        return Bus::dispatchNow(BetterLaravel::getDispatchableUnit($feature, $arguments));
+        return $this->dispatchSync($this->getDispatchableUnit($feature, $arguments));
     }
 }

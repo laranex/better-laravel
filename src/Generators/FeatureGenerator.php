@@ -2,12 +2,20 @@
 
 namespace Laranex\BetterLaravel\Generators;
 
+use Exception;
 use Illuminate\Support\Facades\File;
+use Laranex\BetterLaravel\Decorator;
 use Laranex\BetterLaravel\Str;
 
-class FeatureGenerator
+class FeatureGenerator extends Generator
 {
-    public function generate($feature, $module, $force = false): string
+    /**
+     * Generate a feature.
+     *
+     *
+     * @throws Exception
+     */
+    public function generate(string $feature, string $module, bool $force = false): string
     {
         $feature = Str::feature($feature);
         $module = Str::module($module);
@@ -17,7 +25,8 @@ class FeatureGenerator
         $filePath = "{$directoryPath}/{$filename}";
 
         if (File::exists($filePath) && ! $force) {
-            return "Feature already exists: {$filename}";
+            $path = Decorator::getRelativePath($filePath);
+            throw new Exception("$path already exists!");
         }
 
         $stubContents = $this->getStubContents();
@@ -36,12 +45,18 @@ class FeatureGenerator
         return $filePath;
     }
 
-    private function getStubContents()
+    /**
+     * Get the appropriate stub contents.
+     */
+    private function getStubContents(): string
     {
         return File::get(__DIR__.'/stubs/feature.stub');
     }
 
-    private function replacePlaceholders($content, $replacements)
+    /**
+     * Replace placeholders in stubs
+     */
+    private function replacePlaceholders(string $content, array $replacements): string
     {
         foreach ($replacements as $placeholder => $replacement) {
             $content = str_replace("{{{$placeholder}}}", $replacement, $content);

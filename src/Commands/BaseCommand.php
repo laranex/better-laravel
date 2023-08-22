@@ -8,9 +8,20 @@ use Laranex\BetterLaravel\Decorator;
 
 class BaseCommand extends Command
 {
-    public function printDecoratedOutput($output)
+    /**
+     * Print pretty output once file has been generated.
+     */
+    public function printFileGeneratedOutput(string $output): void
     {
-        $this->info(Decorator::getGeneratedOutput($output));
+        $this->info(Decorator::getFileGeneratedOutput($output));
         $this->comment(Inspiring::quote());
+    }
+
+    /**
+     * Print pretty output once file has occurred error.
+     */
+    public function printFileGenerationErrorOutput(string $output): void
+    {
+        $this->error(Decorator::getFileGenerationErrorOutput($output));
     }
 }

@@ -7,8 +7,13 @@ use Laranex\BetterLaravel\Cores\Feature;
 
 class {{feature}} extends Feature
 {
-    public function handle(Request $request)
+     /**
+     * Execute the feature.
+     *
+     * @return void
+     */
+    public function handle(Request $request): void
     {
-
+        //
     }
 }
