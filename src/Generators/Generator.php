@@ -2,7 +2,11 @@
 
 namespace Laranex\BetterLaravel\Generators;
 
-class Generator
+use Exception;
+use Illuminate\Support\Facades\File;
+use Laranex\BetterLaravel\Decorator;
+
+abstract class Generator
 {
     /**
      * Replace placeholders in stubs
@@ -18,5 +22,18 @@ class Generator
         }
 
         return $content;
+    }
+
+    /**
+     * Throws exception if the given file exists and force options is false
+     *
+     * @throws Exception
+     */
+    public function throwIfFileExists(string $filePath, bool $force = false): void
+    {
+        if (File::exists($filePath) && ! $force) {
+            $path = Decorator::getRelativePath($filePath);
+            throw new Exception("$path already exists!");
+        }
     }
 }

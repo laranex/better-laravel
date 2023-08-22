@@ -24,4 +24,12 @@ class BaseCommand extends Command
     {
         $this->error(Decorator::getFileGenerationErrorOutput($output));
     }
+
+    /**
+     * Print pretty output once file has occurred error.
+     */
+    public function printDisableRoutesWarning(): void
+    {
+        $this->error(Decorator::getDisableRoutesWarning());
+    }
 }

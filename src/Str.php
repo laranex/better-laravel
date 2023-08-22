@@ -4,7 +4,7 @@ namespace Laranex\BetterLaravel;
 
 use Illuminate\Support\Str as LaravelStr;
 
-class Str
+class Str extends LaravelStr
 {
     /**
      * Convert a value to studly caps case.
@@ -17,13 +17,19 @@ class Str
     }
 
     /**
-     * Convert a string to snake case.
-     *
-     * @return string
+     * Convert a value to studly caps case.
      */
-    public static function snake(string $value, string $delimiter = '_')
+    public static function route(string $value): string
     {
-        return LaravelStr::snake($value, $delimiter);
+        return self::kebab($value);
+    }
+
+    /**
+     * Convert a value to directory case
+     */
+    public static function directory(string $value): string
+    {
+        return self::lower($value);
     }
 
     /**

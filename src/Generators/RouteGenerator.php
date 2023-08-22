@@ -6,21 +6,21 @@ use Exception;
 use Illuminate\Support\Facades\File;
 use Laranex\BetterLaravel\Str;
 
-class ControllerGenerator extends Generator
+class RouteGenerator extends Generator
 {
     /**
-     * Generate a controller.
+     * Generate a route.
      *
      *
      * @throws Exception
      */
-    public function generate(string $controller, string $module, bool $force = false): string
+    public function generate(string $route, string $versionOrDirectory = '', string $routeFileType = 'web', bool $force = false): string
     {
-        $controller = Str::controller($controller);
-        $module = Str::module($module);
+        $route = Str::route($route);
+        $versionOrDirectory = Str::directory($versionOrDirectory);
 
-        $directoryPath = app_path("Modules/{$module}/Http");
-        $filename = "$controller.php";
+        $directoryPath = base_path("routes/$routeFileType/$versionOrDirectory");
+        $filename = "$route.php";
         $filePath = "$directoryPath/$filename";
 
         $this->throwIfFileExists($filePath, $force);
@@ -28,8 +28,8 @@ class ControllerGenerator extends Generator
         $stubContents = $this->getStubContents();
 
         $stubContents = $this->replacePlaceholders($stubContents, [
-            'namespace' => "App\\Modules\\{$module}\\Http",
-            'controller' => $controller,
+            'route' => $route,
+            'versionOrDirectory' => $versionOrDirectory,
         ]);
 
         if (! File::isDirectory($directoryPath)) {
@@ -44,8 +44,8 @@ class ControllerGenerator extends Generator
     /**
      * Get the appropriate stub contents.
      */
-    public function getStubContents(): string
+    private function getStubContents(): string
     {
-        return File::get(__DIR__.'/stubs/controller.stub');
+        return File::get(__DIR__.'/stubs/routes.web.stub');
     }
 }
