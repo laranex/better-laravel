@@ -32,11 +32,7 @@ class FeatureGenerator extends Generator
             'feature' => $feature,
         ]);
 
-        if (! File::isDirectory($directoryPath)) {
-            File::makeDirectory($directoryPath, 0755, true);
-        }
-
-        File::put($filePath, $stubContents);
+        $this->generateFile($directoryPath, $filePath, $stubContents);
 
         return $filePath;
     }

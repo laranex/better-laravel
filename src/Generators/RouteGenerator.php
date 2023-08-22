@@ -19,7 +19,9 @@ class RouteGenerator extends Generator
         $route = Str::route($route);
         $versionOrDirectory = Str::directory($versionOrDirectory);
 
-        $directoryPath = base_path("routes/$routeFileType/$versionOrDirectory");
+        $versionOrDirectory = $versionOrDirectory ? "/$versionOrDirectory" : '';
+
+        $directoryPath = base_path("routes/$routeFileType$versionOrDirectory");
         $filename = "$route.php";
         $filePath = "$directoryPath/$filename";
 
@@ -32,11 +34,7 @@ class RouteGenerator extends Generator
             'versionOrDirectory' => $versionOrDirectory,
         ]);
 
-        if (! File::isDirectory($directoryPath)) {
-            File::makeDirectory($directoryPath, 0755, true);
-        }
-
-        File::put($filePath, $stubContents);
+        $this->generateFile($directoryPath, $filePath, $stubContents);
 
         return $filePath;
     }
@@ -46,6 +44,6 @@ class RouteGenerator extends Generator
      */
     private function getStubContents(): string
     {
-        return File::get(__DIR__.'/stubs/routes.web.stub');
+        return File::get(__DIR__.'/stubs/route.stub');
     }
 }
