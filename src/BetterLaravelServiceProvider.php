@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Laranex\BetterLaravel\Commands\ControllerMakeCommand;
 use Laranex\BetterLaravel\Commands\FeatureMakeCommand;
 use Laranex\BetterLaravel\Commands\JobMakeCommand;
+use Laranex\BetterLaravel\Commands\OperationMakeCommand;
 use Laranex\BetterLaravel\Commands\RouteMakeCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -22,6 +23,7 @@ class BetterLaravelServiceProvider extends PackageServiceProvider
                 RouteMakeCommand::class,
                 ControllerMakeCommand::class,
                 FeatureMakeCommand::class,
+                OperationMakeCommand::class,
                 JobMakeCommand::class,
             ])->hasViews('better-laravel');
     }
