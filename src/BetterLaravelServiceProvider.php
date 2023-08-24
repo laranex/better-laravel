@@ -40,14 +40,18 @@ class BetterLaravelServiceProvider extends PackageServiceProvider
         $webRoutes = BetterLaravel::getAllFilesOfADirectory(base_path('routes/web'), 'php');
         $apiRoutes = BetterLaravel::getAllFilesOfADirectory(base_path('routes/api'), 'php');
 
+        $webRoutesPrefix = config('better-laravel.web_routes_prefix');
+        $apiRoutesPrefix = config('better-laravel.api_routes_prefix');
+
         foreach ($webRoutes as $route) {
             Route::middleware('web')
+                ->prefix($webRoutesPrefix)
                 ->group($route);
         }
 
         foreach ($apiRoutes as $route) {
-            Route::prefix('api')
-                ->middleware('api')
+            Route::middleware('api')
+                ->prefix($apiRoutesPrefix)
                 ->group($route);
         }
     }
