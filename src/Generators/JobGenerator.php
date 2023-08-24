@@ -42,8 +42,13 @@ class JobGenerator extends Generator
      */
     public function getStubContents(bool $queueable): string
     {
-        $stubFile = $queueable ? 'job.queueable.stub' : 'job.stub';
+        $filePart = $queueable ? '.queueable' : '';
 
-        return File::get(__DIR__.'/stubs/'.$stubFile);
+        $stubFile = resource_path("stubs/vendor/better-laravel/job$filePart.php.stub");
+        if (! File::exists($stubFile)) {
+            $stubFile = __DIR__."/../../resources/stubs/job$filePart.php.stub";
+        }
+
+        return File::get($stubFile);
     }
 }

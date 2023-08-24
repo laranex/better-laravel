@@ -42,6 +42,11 @@ class FeatureGenerator extends Generator
      */
     public function getStubContents(): string
     {
-        return File::get(__DIR__.'/stubs/feature.stub');
+        $stubFile = resource_path('stubs/vendor/better-laravel/feature.php.stub');
+        if (! File::exists($stubFile)) {
+            $stubFile = __DIR__.'/../../resources/stubs/feature.php.stub';
+        }
+
+        return File::get($stubFile);
     }
 }

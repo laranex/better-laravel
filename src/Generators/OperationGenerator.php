@@ -42,6 +42,11 @@ class OperationGenerator extends Generator
      */
     public function getStubContents(): string
     {
-        return File::get(__DIR__.'/stubs/operation.stub');
+        $stubFile = resource_path('stubs/vendor/better-laravel/operation.php.stub');
+        if (! File::exists($stubFile)) {
+            $stubFile = __DIR__.'/../../resources/stubs/operation.php.stub';
+        }
+
+        return File::get($stubFile);
     }
 }

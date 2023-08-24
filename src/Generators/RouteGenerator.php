@@ -44,6 +44,11 @@ class RouteGenerator extends Generator
      */
     private function getStubContents(): string
     {
-        return File::get(__DIR__.'/stubs/route.stub');
+        $stubFile = resource_path('stubs/vendor/better-laravel/route.php.stub');
+        if (! File::exists($stubFile)) {
+            $stubFile = __DIR__.'/../../resources/stubs/route.php.stub';
+        }
+
+        return File::get($stubFile);
     }
 }
