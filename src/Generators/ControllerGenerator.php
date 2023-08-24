@@ -42,6 +42,11 @@ class ControllerGenerator extends Generator
      */
     public function getStubContents(): string
     {
-        return File::get(__DIR__.'/stubs/controller.stub');
+        $stubFile = resource_path('stubs/vendor/better-laravel/controller.php.stub');
+        if (! File::exists($stubFile)) {
+            $stubFile = __DIR__.'/../../resources/stubs/controller.php.stub';
+        }
+
+        return File::get($stubFile);
     }
 }

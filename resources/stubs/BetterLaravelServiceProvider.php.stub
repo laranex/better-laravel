@@ -26,18 +26,12 @@ class BetterLaravelServiceProvider extends PackageServiceProvider
                 OperationMakeCommand::class,
                 JobMakeCommand::class,
             ])->hasViews('better-laravel')
-            ->publishesServiceProvider('BetterLaravelServiceProvider');
-
-        $packageShortName = $package->shortName();
-        $this->publishes([
-            __DIR__.'/../resources/stubs' => resource_path("stubs/vendor/$packageShortName"),
-        ], "$packageShortName-stubs");
-
+            ->publishesServiceProvider("BetterLaravelServiceProvider");
     }
 
     public function packageRegistered(): void
     {
-        if (config('better-laravel.enable_routes') && ! App::routesAreCached()) {
+        if (config('better-laravel.enable_routes') && !App::routesAreCached()) {
             $this->registerRoutes();
         }
     }

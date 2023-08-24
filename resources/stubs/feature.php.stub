@@ -10,10 +10,10 @@ class {{feature}} extends Feature
      /**
      * Execute the feature.
      *
-     * @return mixed
+     * @return int
      */
-    public function handle(Request $request): mixed
+    public function handle(Request $request): int
     {
-        //
+        return 0;
     }
 }
