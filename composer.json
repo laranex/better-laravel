@@ -8,7 +8,7 @@
         "laravel-modular",
         "domain-driven-design"
     ],
-    "homepage": "https://github.com/laranex/better-laravel",
+    "homepage": "https://better-laravel.netlify.app",
     "license": "MIT",
     "authors": [
         {
