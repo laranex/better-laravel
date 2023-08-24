@@ -25,8 +25,7 @@ class BetterLaravelServiceProvider extends PackageServiceProvider
                 FeatureMakeCommand::class,
                 OperationMakeCommand::class,
                 JobMakeCommand::class,
-            ])->hasViews('better-laravel')
-            ->publishesServiceProvider('BetterLaravelServiceProvider');
+            ])->hasViews('better-laravel');
 
         $packageShortName = $package->shortName();
         $this->publishes([
