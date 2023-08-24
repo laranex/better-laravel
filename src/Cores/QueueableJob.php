@@ -7,9 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class QueueableJob implements ShouldQueue
+class QueueableJob extends Job implements ShouldQueue
 {
-    use SerializesModels;
-    use InteractsWithQueue;
-    use Queueable;
+    use SerializesModels, InteractsWithQueue, Queueable;
 }
