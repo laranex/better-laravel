@@ -150,9 +150,15 @@ class Str extends LaravelStr
 
     /**
      * Get the given name formatted as a request.
+     *
+     *  i.e. "StorePostRequest.php", "storePost",
+     *  and many other forms will be transformed to "StorePostRequest" which is
+     *  the standard operation class name.
+     *
+     * @param  string  $name
      */
     public static function request($name): string
     {
-        return self::studly($name);
+        return self::studly(preg_replace('/Request(\.php)?$/', '', $name).'Request');
     }
 }

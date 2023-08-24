@@ -8,6 +8,7 @@ use Laranex\BetterLaravel\Commands\ControllerMakeCommand;
 use Laranex\BetterLaravel\Commands\FeatureMakeCommand;
 use Laranex\BetterLaravel\Commands\JobMakeCommand;
 use Laranex\BetterLaravel\Commands\OperationMakeCommand;
+use Laranex\BetterLaravel\Commands\RequestMakeCommand;
 use Laranex\BetterLaravel\Commands\RouteMakeCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -22,6 +23,7 @@ class BetterLaravelServiceProvider extends PackageServiceProvider
             ->hasCommands([
                 RouteMakeCommand::class,
                 ControllerMakeCommand::class,
+                RequestMakeCommand::class,
                 FeatureMakeCommand::class,
                 OperationMakeCommand::class,
                 JobMakeCommand::class,
