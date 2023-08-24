@@ -1,4 +1,5 @@
-![Better Laravel](images/logo.svg)
+<p align="center"><a href="https://better-laravel.netlify.app" target="_blank"><img src="images/logo.svg" width="400"></a></p>
+
 
 A package which allows you to build a better Laravel Application
 
