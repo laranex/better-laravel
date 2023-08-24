@@ -2,6 +2,7 @@
 
 A package which allows you to build a better Laravel Application
 
+
 > **Documentation** - [https://better-laravel.netlify.app](https://better-laravel.netlify.app)
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/laranex/better-laravel.svg?style=flat-square)](https://packagist.org/packages/laranex/better-laravel)
