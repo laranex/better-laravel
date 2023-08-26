@@ -19,7 +19,7 @@ class ControllerGenerator extends Generator
         $controller = Str::controller($controller);
         $module = Str::module($module);
 
-        $directoryPath = app_path("Modules/{$module}/Http");
+        $directoryPath = app_path("Modules/{$module}/Http/Controllers");
         $filename = "$controller.php";
         $filePath = "$directoryPath/$filename";
 
@@ -28,7 +28,7 @@ class ControllerGenerator extends Generator
         $stubContents = $this->getStubContents();
 
         $stubContents = $this->replacePlaceholders($stubContents, [
-            'namespace' => "App\\Modules\\{$module}\\Http",
+            'namespace' => "App\\Modules\\{$module}\\Http\\Controllers",
             'controller' => $controller,
         ]);
 
