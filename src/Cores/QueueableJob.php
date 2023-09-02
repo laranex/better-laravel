@@ -9,5 +9,5 @@ use Illuminate\Queue\SerializesModels;
 
 class QueueableJob extends Job implements ShouldQueue
 {
-    use SerializesModels, InteractsWithQueue, Queueable;
+    use InteractsWithQueue, Queueable, SerializesModels;
 }

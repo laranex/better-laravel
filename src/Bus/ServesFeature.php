@@ -6,7 +6,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 
 trait ServesFeature
 {
-    use DispatchesJobs, Dispatcher;
+    use Dispatcher, DispatchesJobs;
 
     /**
      * Serve the given feature with the given arguments.
