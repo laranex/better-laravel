@@ -9,7 +9,7 @@ use Laranex\BetterLaravel\Cores\QueueableJob;
 
 trait UnitDispatcher
 {
-    use DispatchesJobs, Dispatcher;
+    use Dispatcher, DispatchesJobs;
 
     /**
      * Dispatch the given unit with the given arguments.
