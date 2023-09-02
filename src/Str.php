@@ -17,11 +17,11 @@ class Str extends LaravelStr
     }
 
     /**
-     * Convert a value to studly caps case.
+     * Convert a value to pluralize kebab case.
      */
     public static function route(string $value): string
     {
-        return self::kebab($value);
+        return self::kebab(self::plural($value));
     }
 
     /**
