@@ -7,5 +7,5 @@ use Laranex\BetterLaravel\Bus\ServesFeature;
 
 class Controller
 {
-    use ValidatesRequests, ServesFeature;
+    use ServesFeature, ValidatesRequests;
 }
