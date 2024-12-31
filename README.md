@@ -3,6 +3,13 @@
 
 A package which allows you to build a better Laravel Application
 
+> Announcement by [Aung Kyaw Minn](https://www.linkedin.com/in/aungkyawminn/)
+Dear Developers, I would like to inform that:
+- Primary concepts are based on https://lucidarch.dev/.
+- This package is the predecessor of [Next Laravel](https://github.com/laranex/next-laravel).
+- I also developed new variation architecture package called [Mojura](https://github.com/innoaya/mojura).
+
+
 
 > **Documentation** - [https://better-laravel.netlify.app](https://better-laravel.netlify.app)
 
