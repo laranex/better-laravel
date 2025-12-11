@@ -35,7 +35,7 @@ class JobMakeCommand extends BaseCommand
             $queueable = $this->option('queue');
             $force = $this->option('force');
 
-            $output = (new JobGenerator())->generate($job, $domain, $queueable, $force);
+            $output = (new JobGenerator)->generate($job, $domain, $queueable, $force);
 
             $this->printFileGeneratedOutput($output);
         } catch (\Exception $exception) {

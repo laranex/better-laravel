@@ -14,7 +14,6 @@ use Laranex\BetterLaravel\Cores\QueueableJob;
  * Provides functionality to dispatch units (Jobs, Operations) synchronously or to queues.
  * This trait combines the Dispatcher and DispatchesJobs traits to offer a unified interface
  * for running units with or without queue support.
- *
  */
 trait UnitDispatcher
 {
@@ -28,7 +27,7 @@ trait UnitDispatcher
      *
      * @param  string|Job|Operation  $unit  The unit to dispatch (class name or instance)
      * @param  array<string, mixed>  $arguments  Arguments to pass to the unit's constructor
-     * @return mixed  The result returned by the unit's execution
+     * @return mixed The result returned by the unit's execution
      *
      * @deprecated Passing a string class name to run method is deprecated and will be removed in a future version. Please instantiate the unit directly: use `new YourJob()` instead of `YourJob::class`.
      */
@@ -46,10 +45,10 @@ trait UnitDispatcher
      * @param  string|Job|Operation  $unit  The unit to dispatch (class name or instance, must be queueable)
      * @param  array<string, mixed>  $arguments  Arguments to pass to the unit's constructor
      * @param  string  $queue  The queue name to dispatch the unit to (defaults to 'default')
-     * @return mixed  The result of the dispatch operation
+     * @return mixed The result of the dispatch operation
      *
-     * @throws Error  If the unit does not support queues (must extend QueueableJob)
-     * @throws Error  If the unit is an Operation (not yet supported for queueing)
+     * @throws Error If the unit does not support queues (must extend QueueableJob)
+     * @throws Error If the unit is an Operation (not yet supported for queueing)
      *
      * @deprecated Passing a string class name to runInQueue method is deprecated and will be removed in a future version. Please instantiate the unit directly: use `new YourJob()` instead of `YourJob::class`.
      */
