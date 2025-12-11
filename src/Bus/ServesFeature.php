@@ -11,7 +11,6 @@ use Laranex\BetterLaravel\Cores\Feature;
  * Provides functionality to serve features synchronously.
  * This trait combines the Dispatcher and DispatchesJobs traits to enable
  * synchronous execution of feature classes within the Better Laravel architecture.
- *
  */
 trait ServesFeature
 {
@@ -25,8 +24,8 @@ trait ServesFeature
      * are passed to the feature's constructor if a class name is provided.
      *
      * @param  string|Feature  $feature  The feature to serve - either a fully qualified class name or an instance
-     * @param  array $arguments  The arguments to pass to the feature's constructor (only used if $feature is a class name)
-     * @return mixed  The result returned by the feature's execution
+     * @param  array  $arguments  The arguments to pass to the feature's constructor (only used if $feature is a class name)
+     * @return mixed The result returned by the feature's execution
      *
      * @deprecated Passing a string class name to serve method is deprecated and will be removed in a future version. Please instantiate the unit directly: use `new YourFeature()` instead of `YourFeature::class`.
      */

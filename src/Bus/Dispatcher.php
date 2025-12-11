@@ -11,7 +11,6 @@ use Laranex\BetterLaravel\Cores\Operation;
  *
  * Provides utility methods for dispatching units (jobs, operations, features).
  * This trait handles the instantiation of dispatchable units from class names or objects.
- *
  */
 trait Dispatcher
 {
@@ -21,9 +20,9 @@ trait Dispatcher
      * Resolves a dispatchable unit by either instantiating it from a class name
      * or returning the already instantiated object.
      *
-     * @param string|Feature|Job|Operation $unit  The unit to dispatch - either a class name string or an object instance
-     * @param array $arguments  The arguments to pass to the unit's constructor if it's a class name
-     * @return Feature|Job|Operation  The instantiated unit ready for dispatch
+     * @param  string|Feature|Job|Operation  $unit  The unit to dispatch - either a class name string or an object instance
+     * @param  array  $arguments  The arguments to pass to the unit's constructor if it's a class name
+     * @return Feature|Job|Operation The instantiated unit ready for dispatch
      *
      * @deprecated Passing a string class name to dispatch methods is deprecated and will be removed in a future version.
      *             Please instantiate the unit directly: use `new YourUnit()` instead of `YourUnit::class`.
@@ -32,7 +31,7 @@ trait Dispatcher
     {
         if (is_string($unit)) {
             trigger_error(
-                'Passing a string class name to dispatch methods is deprecated and will be removed in a future version. ' .
+                'Passing a string class name to dispatch methods is deprecated and will be removed in a future version. '.
                 "Please instantiate the unit directly: use 'new YourUnit()' instead of 'YourUnit::class'.",
                 E_USER_DEPRECATED
             );
