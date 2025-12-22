@@ -161,4 +161,18 @@ class Str extends LaravelStr
     {
         return self::studly(preg_replace('/Request(\.php)?$/', '', $name).'Request');
     }
+
+    /**
+     * Get the given name formatted as a test.
+     *
+     *  i.e. "StorePostTest.php", "storePostTest",
+     *  and many other forms will be transformed to "StorePostTest" which is
+     *  the standard operation class name.
+     *
+     * @param  string  $name
+     */
+    public static function test($name): string
+    {
+        return self::studly(preg_replace('/Test(\.php)?$/', '', $name).'Test');
+    }
 }

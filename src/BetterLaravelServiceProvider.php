@@ -10,6 +10,7 @@ use Laranex\BetterLaravel\Commands\JobMakeCommand;
 use Laranex\BetterLaravel\Commands\OperationMakeCommand;
 use Laranex\BetterLaravel\Commands\RequestMakeCommand;
 use Laranex\BetterLaravel\Commands\RouteMakeCommand;
+use Laranex\BetterLaravel\Commands\TestMakeCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -27,6 +28,7 @@ class BetterLaravelServiceProvider extends PackageServiceProvider
                 FeatureMakeCommand::class,
                 OperationMakeCommand::class,
                 JobMakeCommand::class,
+                TestMakeCommand::class,
             ])->hasViews('better-laravel');
 
         $packageShortName = $package->shortName();
