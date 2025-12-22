@@ -14,7 +14,7 @@ class OperationGenerator extends Generator
      *
      * @throws Exception
      */
-    public function generate(string $operation, string $module, bool $force = false): string
+    public function generate(string $operation, string $module, bool $force = false, bool $dry = false): string
     {
         $operation = Str::operation($operation);
         $module = Str::module($module);
@@ -22,6 +22,10 @@ class OperationGenerator extends Generator
         $directoryPath = app_path("Modules/{$module}/Operations");
         $filename = "$operation.php";
         $filePath = "$directoryPath/$filename";
+
+        if ($dry) {
+            return $filePath;
+        }
 
         $this->throwIfFileExists($filePath, $force);
 

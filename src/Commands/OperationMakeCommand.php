@@ -14,7 +14,8 @@ class OperationMakeCommand extends BaseCommand
     public $signature = 'better:operation
                         {operation : Operation}
                         {domain : Domain}
-                        {--F|force : Overwrite existing files}';
+                        {--F|force : Overwrite existing files}
+                        {--D|dry : Dry run the command}';
 
     /**
      * The description the console command.
@@ -32,8 +33,9 @@ class OperationMakeCommand extends BaseCommand
             $operation = $this->argument('operation');
             $domain = $this->argument('domain');
             $force = $this->option('force');
+            $dry = $this->option('dry');
 
-            $output = (new OperationGenerator())->generate($operation, $domain, $force);
+            $output = (new OperationGenerator)->generate($operation, $domain, $force, $dry);
 
             $this->printFileGeneratedOutput($output);
         } catch (\Exception $exception) {
