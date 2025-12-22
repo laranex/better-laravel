@@ -14,7 +14,7 @@ class FeatureGenerator extends Generator
      *
      * @throws Exception
      */
-    public function generate(string $feature, string $module, bool $force = false): string
+    public function generate(string $feature, string $module, bool $force = false, bool $dry = false): string
     {
         $feature = Str::feature($feature);
         $module = Str::module($module);
@@ -22,6 +22,10 @@ class FeatureGenerator extends Generator
         $directoryPath = app_path("Modules/{$module}/Features");
         $filename = "$feature.php";
         $filePath = "$directoryPath/$filename";
+
+        if ($dry) {
+            return $filePath;
+        }
 
         $this->throwIfFileExists($filePath, $force);
 
