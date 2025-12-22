@@ -14,7 +14,7 @@ class JobGenerator extends Generator
      *
      * @throws Exception
      */
-    public function generate(string $job, string $domain, bool $queueable = false, bool $force = false): string
+    public function generate(string $job, string $domain, bool $queueable = false, bool $force = false, $dry = false): string
     {
         $job = Str::job($job);
         $domain = Str::domain($domain);
@@ -22,6 +22,10 @@ class JobGenerator extends Generator
         $directoryPath = app_path("Domains/{$domain}/Jobs");
         $filename = "{$job}.php";
         $filePath = "{$directoryPath}/{$filename}";
+
+        if ($dry) {
+            return $filePath;
+        }
 
         $this->throwIfFileExists($filePath, $force);
 
