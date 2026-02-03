@@ -2,6 +2,4 @@
 
 namespace Laranex\BetterLaravel\Cores;
 
-class Job
-{
-}
+class Job {}
