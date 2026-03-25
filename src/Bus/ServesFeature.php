@@ -14,7 +14,7 @@ use Laranex\BetterLaravel\Cores\Feature;
  */
 trait ServesFeature
 {
-    use Dispatcher, DispatchesJobs;
+    use DispatchesJobs;
 
     /**
      * Serve the given feature with the given arguments.
@@ -23,14 +23,12 @@ trait ServesFeature
      * provided as either a class name string or an instantiated object. Arguments
      * are passed to the feature's constructor if a class name is provided.
      *
-     * @param  string|Feature  $feature  The feature to serve - either a fully qualified class name or an instance
-     * @param  array  $arguments  The arguments to pass to the feature's constructor (only used if $feature is a class name)
+     * @param  Feature  $feature  The feature to serve - either a fully qualified class name or an instance
      * @return mixed The result returned by the feature's execution
      *
-     * @deprecated Passing a string class name to serve method is deprecated and will be removed in a future version. Please instantiate the unit directly: use `new YourFeature()` instead of `YourFeature::class`.
      */
-    public function serve(string|Feature $feature, array $arguments = []): mixed
+    public function serve(Feature $feature): mixed
     {
-        return $this->dispatchSync($this->getDispatchableUnit($feature, $arguments));
+        return $this->dispatchSync($feature);
     }
 }
