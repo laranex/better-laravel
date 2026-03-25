@@ -5,9 +5,9 @@ parameters:
     level: 4
     paths:
         - src
+    excludePaths:
         - config
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
-    checkMissingIterableValueType: false
 
