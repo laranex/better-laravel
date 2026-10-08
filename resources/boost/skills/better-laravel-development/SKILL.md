@@ -21,7 +21,7 @@ Use this skill when a Laravel application uses `laranex/better-laravel` (classes
 
 Run the commands with `--no-interaction`; every one accepts `--force` to overwrite an existing file and exits `1` when generation fails.
 
-- `php artisan better:route {route} {versionOrDirectory?} [--api]` → `routes/web/{dir}/{routes}.php` or `routes/api/{dir}/{routes}.php` (name is pluralised kebab-case)
+- `php artisan better:route {route} {versionOrDirectory?} [--api]` → `routes/web/{dir}/{routes}.php` or `routes/api/{dir}/{routes}.php` (name is pluralized kebab-case)
 - `php artisan better:controller {controller} {module}` → `app/Modules/{Module}Module/Http/Controllers/{Name}Controller.php`
 - `php artisan better:feature {feature} {module}` → `app/Modules/{Module}Module/Features/{Name}Feature.php`
 - `php artisan better:operation {operation} {module}` → `app/Modules/{Module}Module/Operations/{Name}Operation.php`
