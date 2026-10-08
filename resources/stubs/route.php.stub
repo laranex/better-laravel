@@ -1,18 +1,20 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Routes
 |--------------------------------------------------------------------------
 |
 | Register your module routes here. These routes are loaded by the
-| BetterLaravelServiceProvider.php. Now go build something awesome!
+| BetterLaravelServiceProvider. Now go build something awesome!
 |
 */
 
-Route::group(['prefix' => '{{versionOrDirectory}}/{{route}}'], function() {
+Route::group(['prefix' => '{{versionOrDirectory}}/{{route}}'], function () {
 
-    Route::get('/', function() {
+    Route::get('/', function () {
         return view('better-laravel::welcome');
     });
 

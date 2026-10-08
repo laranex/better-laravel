@@ -1,16 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laranex\BetterLaravel\Generators;
 
 use Exception;
-use Illuminate\Support\Facades\File;
 use Laranex\BetterLaravel\Str;
 
 class FeatureGenerator extends Generator
 {
     /**
-     * Generate a feature.
-     *
+     * Generate a feature inside a module and return the generated file path.
      *
      * @throws Exception
      */
@@ -19,15 +19,12 @@ class FeatureGenerator extends Generator
         $feature = Str::feature($feature);
         $module = Str::module($module);
 
-        $directoryPath = app_path("Modules/{$module}/Features");
-        $filename = "$feature.php";
-        $filePath = "$directoryPath/$filename";
+        $directoryPath = app_path("Modules/$module/Features");
+        $filePath = "$directoryPath/$feature.php";
 
         $this->throwIfFileExists($filePath, $force);
 
-        $stubContents = $this->getStubContents();
-
-        $stubContents = $this->replacePlaceholders($stubContents, [
+        $stubContents = $this->replacePlaceholders($this->getStubContents(), [
             'namespace' => "App\\Modules\\$module\\Features",
             'feature' => $feature,
         ]);
@@ -37,16 +34,8 @@ class FeatureGenerator extends Generator
         return $filePath;
     }
 
-    /**
-     * Get the appropriate stub contents.
-     */
     public function getStubContents(): string
     {
-        $stubFile = resource_path('stubs/vendor/better-laravel/feature.php.stub');
-        if (! File::exists($stubFile)) {
-            $stubFile = __DIR__.'/../../resources/stubs/feature.php.stub';
-        }
-
-        return File::get($stubFile);
+        return $this->stub('feature.php');
     }
 }

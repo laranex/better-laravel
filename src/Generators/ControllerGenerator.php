@@ -1,16 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laranex\BetterLaravel\Generators;
 
 use Exception;
-use Illuminate\Support\Facades\File;
 use Laranex\BetterLaravel\Str;
 
 class ControllerGenerator extends Generator
 {
     /**
-     * Generate a controller.
-     *
+     * Generate a controller inside a module and return the generated file path.
      *
      * @throws Exception
      */
@@ -19,16 +19,13 @@ class ControllerGenerator extends Generator
         $controller = Str::controller($controller);
         $module = Str::module($module);
 
-        $directoryPath = app_path("Modules/{$module}/Http/Controllers");
-        $filename = "$controller.php";
-        $filePath = "$directoryPath/$filename";
+        $directoryPath = app_path("Modules/$module/Http/Controllers");
+        $filePath = "$directoryPath/$controller.php";
 
         $this->throwIfFileExists($filePath, $force);
 
-        $stubContents = $this->getStubContents();
-
-        $stubContents = $this->replacePlaceholders($stubContents, [
-            'namespace' => "App\\Modules\\{$module}\\Http\\Controllers",
+        $stubContents = $this->replacePlaceholders($this->getStubContents(), [
+            'namespace' => "App\\Modules\\$module\\Http\\Controllers",
             'controller' => $controller,
         ]);
 
@@ -37,16 +34,8 @@ class ControllerGenerator extends Generator
         return $filePath;
     }
 
-    /**
-     * Get the appropriate stub contents.
-     */
     public function getStubContents(): string
     {
-        $stubFile = resource_path('stubs/vendor/better-laravel/controller.php.stub');
-        if (! File::exists($stubFile)) {
-            $stubFile = __DIR__.'/../../resources/stubs/controller.php.stub';
-        }
-
-        return File::get($stubFile);
+        return $this->stub('controller.php');
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laranex\BetterLaravel\Commands;
 
 use Laranex\BetterLaravel\Generators\JobGenerator;
@@ -11,37 +13,29 @@ class JobMakeCommand extends BaseCommand
      *
      * @var string
      */
-    public $signature = 'better:job
+    protected $signature = 'better:job
                         {job : Job}
                         {domain : Domain}
                         {--Q|queue : Make the job queueable}
                         {--F|force : Overwrite existing files}';
 
     /**
-     * The description the console command.
+     * The console command description.
      *
      * @var string
      */
-    public $description = 'Create a new job in a domain';
+    protected $description = 'Create a new job in a domain';
 
     /**
      * Execute the console command.
      */
-    public function handle(): int
+    public function handle(JobGenerator $generator): int
     {
-        try {
-            $job = $this->argument('job');
-            $domain = $this->argument('domain');
-            $queueable = $this->option('queue');
-            $force = $this->option('force');
-
-            $output = (new JobGenerator)->generate($job, $domain, $queueable, $force);
-
-            $this->printFileGeneratedOutput($output);
-        } catch (\Exception $exception) {
-            $this->printFileGenerationErrorOutput($exception->getMessage());
-        }
-
-        return 0;
+        return $this->generate(fn (): string => $generator->generate(
+            $this->stringArgument('job'),
+            $this->stringArgument('domain'),
+            (bool) $this->option('queue'),
+            (bool) $this->option('force'),
+        ));
     }
 }

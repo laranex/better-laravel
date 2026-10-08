@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laranex\BetterLaravel\Commands;
 
 use Laranex\BetterLaravel\Generators\RequestGenerator;
@@ -11,35 +13,27 @@ class RequestMakeCommand extends BaseCommand
      *
      * @var string
      */
-    public $signature = 'better:request
+    protected $signature = 'better:request
                         {request : Request}
                         {domain : Domain}
                         {--F|force : Overwrite existing files}';
 
     /**
-     * The description the console command.
+     * The console command description.
      *
      * @var string
      */
-    public $description = 'Create a new request in a domain';
+    protected $description = 'Create a new request in a domain';
 
     /**
      * Execute the console command.
      */
-    public function handle(): int
+    public function handle(RequestGenerator $generator): int
     {
-        try {
-            $request = $this->argument('request');
-            $domain = $this->argument('domain');
-            $force = $this->option('force');
-
-            $output = (new RequestGenerator)->generate($request, $domain, $force);
-
-            $this->printFileGeneratedOutput($output);
-        } catch (\Exception $exception) {
-            $this->printFileGenerationErrorOutput($exception->getMessage());
-        }
-
-        return 0;
+        return $this->generate(fn (): string => $generator->generate(
+            $this->stringArgument('request'),
+            $this->stringArgument('domain'),
+            (bool) $this->option('force'),
+        ));
     }
 }
