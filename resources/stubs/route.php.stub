@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => '{{versionOrDirectory}}/{{route}}'], function () {
+Route::group(['prefix' => '{{prefix}}'], function () {
 
     Route::get('/', function () {
         return view('better-laravel::welcome');

@@ -28,7 +28,7 @@ Run the commands with `--no-interaction`; every one accepts `--force` to overwri
 - `php artisan better:request {request} {domain}` → `app/Domains/{Domain}/Requests/{Name}Request.php`
 - `php artisan better:job {job} {domain} [--queue]` → `app/Domains/{Domain}/Jobs/{Name}Job.php` (`--queue` extends `QueueableJob`)
 
-Suffixes (`Controller`, `Feature`, `Job`, …) and the `Module` suffix are added automatically; `.php` is stripped.
+Suffixes (`Controller`, `Feature`, `Job`, …) and the `Module` suffix are added automatically; `.php` is stripped. Names must not contain `/` or `\` (nested names such as `Blog/CreatePost` exit `1`); use `versionOrDirectory` for route subdirectories.
 
 ### 2. Wire them
 
@@ -42,7 +42,7 @@ Suffixes (`Controller`, `Feature`, `Job`, …) and the `Module` suffix are added
 
 - every PHP file under `routes/web` and `routes/api` is loaded automatically with the `web` / `api` middleware groups and the prefixes from `config/better-laravel.php` (`web_routes_prefix` default `''`, `api_routes_prefix` default `'api'`)
 - set `BETTER_LARAVEL_ENABLE_ROUTES=false` (or `enable_routes`) to register the files yourself
-- publish only when needed: `php artisan vendor:publish --tag="better-laravel-config"`, `--tag="better-laravel-stubs"` (custom generator stubs are read from `resources/stubs/vendor/better-laravel`), `--tag="better-laravel-views"`
+- publish only when needed: `php artisan vendor:publish --tag="better-laravel-config"`, `--tag="better-laravel-stubs"` (custom generator stubs are read from `resources/stubs/vendor/better-laravel`; `route.php.stub` gets `{{prefix}}`, e.g. `v1/blogs`), `--tag="better-laravel-views"`
 
 ## Rules, References, and Templates
 
