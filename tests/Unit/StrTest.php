@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Laranex\BetterLaravel\Str;
 
-it('formats route file names as pluralised kebab-case', function (string $input, string $expected) {
+it('formats route file names as pluralized kebab-case', function (string $input, string $expected) {
     expect(Str::route($input))->toBe($expected);
 })->with([
     ['blog', 'blogs'],
