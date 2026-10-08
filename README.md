@@ -73,6 +73,13 @@ class StoreBlogFeature extends Feature
 
 Every command accepts `--force` to overwrite an existing file and exits with `1` when generation fails; names must not contain `/` or `\` (nested names are not supported). Route loading and its prefixes are controlled by `config/better-laravel.php` (`enable_routes`, `web_routes_prefix`, `api_routes_prefix`). See the [documentation](https://laranex.vercel.app/better-laravel) for the principles behind modules, domains, features, operations and jobs.
 
+## Built for humans and AI agents
+
+The documentation is written for developers, and the package ships an agent skill so AI coding agents use it the way it's meant to be used.
+
+- **Laravel Boost** installs the skill automatically: run `php artisan boost:install` (or `boost:update`).
+- **Any other agent** (Claude Code, Codex, Cursor and others): `npx skills add laranex/better-laravel`.
+
 ## Testing
 
 ```bash
