@@ -16,6 +16,9 @@ class JobGenerator extends Generator
      */
     public function generate(string $job, string $domain, bool $queueable = false, bool $force = false): string
     {
+        $this->ensureNameIsNotNested($job, 'job');
+        $this->ensureNameIsNotNested($domain, 'domain');
+
         $job = Str::job($job);
         $domain = Str::domain($domain);
 

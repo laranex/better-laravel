@@ -16,7 +16,7 @@ it('generates a feature inside a module', function () {
         ->toContain('namespace App\Modules\BlogModule\Features;')
         ->toContain('use Laranex\BetterLaravel\Cores\Feature;')
         ->toContain('class StoreBlogFeature extends Feature')
-        ->toContain('public function handle(Request $request)');
+        ->toContain('public function handle(Request $request): mixed');
 });
 
 it('refuses to overwrite an existing feature unless forced', function () {

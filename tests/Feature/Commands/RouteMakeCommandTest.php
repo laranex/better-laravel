@@ -14,7 +14,7 @@ it('generates a web route file', function () {
         ->assertExitCode(0);
 
     expect(file_get_contents($path))
-        ->toContain("Route::group(['prefix' => '/articles']")
+        ->toContain("Route::group(['prefix' => 'articles']")
         ->toContain("view('better-laravel::welcome')");
 });
 
@@ -26,7 +26,7 @@ it('generates a versioned api route file with the --api option', function () {
         ->expectsOutput(Decorator::getFileGeneratedOutput($path))
         ->assertExitCode(0);
 
-    expect(file_get_contents($path))->toContain("Route::group(['prefix' => '/v2/comments']");
+    expect(file_get_contents($path))->toContain("Route::group(['prefix' => 'v2/comments']");
 });
 
 it('refuses to overwrite an existing route file unless forced', function () {
@@ -59,4 +59,24 @@ it('generates a route file that Laravel can load', function () {
     Route::middleware('web')->group($path);
 
     $this->get('/galleries')->assertOk()->assertSee('<title>Better Laravel</title>', false);
+});
+
+it('rejects a nested route name', function (string $route) {
+    $this->artisan('better:route', ['route' => $route])
+        ->expectsOutput(Decorator::getFileGenerationErrorOutput("The route name [$route] must not contain \"/\" or \"\\\". Nested names are not supported."))
+        ->assertExitCode(1);
+
+    expect(base_path('routes/web/admin/users.php'))->not->toBeFile();
+})->with(['admin/users', 'admin\\users']);
+
+it('keeps filling the legacy versionOrDirectory placeholder of previously published stubs', function () {
+    $this->cleanUp(resource_path('stubs/vendor/better-laravel'));
+    $this->cleanUp(base_path('routes/api/v3'));
+    $stub = resource_path('stubs/vendor/better-laravel/route.php.stub');
+    mkdir(dirname($stub), 0755, true);
+    file_put_contents($stub, "<?php // '{{versionOrDirectory}}/{{route}}'");
+
+    $this->artisan('better:route', ['route' => 'post', 'versionOrDirectory' => 'v3', '--api' => true])->assertExitCode(0);
+
+    expect(file_get_contents(base_path('routes/api/v3/posts.php')))->toBe("<?php // '/v3/posts'");
 });

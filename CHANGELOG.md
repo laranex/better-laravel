@@ -23,12 +23,15 @@ Version 3 was skipped so that every Laranex package shares the same major versio
 - The `job.queueable.php.stub` declared `__construct(): void`, which is a fatal error in generated jobs.
 - The disabled-routes warning named the wrong config key (`better-myanmar.enable_routes`); it now says `better-laravel.enable_routes`.
 - Generated route files import the `Route` facade explicitly.
+- Generator names containing `/` or `\` (for example `better:feature Blog/createPost Blog`) produced a class named `Blog/CreatePostFeature`; every `better:*` command now rejects them with a clear error and exit code `1`.
+- Generated route files no longer start their prefix with a slash (`'prefix' => 'v1/blogs'` instead of `'/v1/blogs'`). The route stub uses a new `{{prefix}}` placeholder; `{{route}}` and `{{versionOrDirectory}}` are still filled so previously published stubs keep working.
 
 ### Upgrading
 - Upgrade to PHP 8.1 or higher (8.2 is no longer the floor) and run `composer require laranex/better-laravel:^4.0`.
 - If you check the exit code of `better:*` commands in scripts, a failed generation is now `1`.
 - If you extended `Commands\BaseCommand` directly, it is now abstract: extend it from a concrete command rather than instantiating it.
 - If you called `Str::studly()` through `Laranex\BetterLaravel\Str` with a second argument, pass only the value (Laravel 13 adds its own `$normalize` parameter).
+- If you passed names with `/` or `\` to the generators, pass a flat name instead; nested names are not supported.
 - If you published the stubs before, republish them with `php artisan vendor:publish --tag="better-laravel-stubs" --force` to pick up the fixed queueable job stub.
 - Nothing else changes: the base classes (`Cores\Controller`, `Feature`, `Operation`, `Job`, `QueueableJob`, `Request`), the `serve()`, `run()` and `runInQueue()` methods, the command signatures, the config keys and the generated file locations are the same as in v2.
 
