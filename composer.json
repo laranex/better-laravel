@@ -1,7 +1,7 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
     "name": "laranex/better-laravel",
-    "description": "Modular, job-driven architecture for Laravel applications: modules, domains, features, operations, jobs and the artisan commands that generate them",
+    "description": "Modular architecture for Laravel: modules for controllers, features and operations, and domains for jobs, with generators for each.",
     "keywords": [
         "laravel",
         "laranex",

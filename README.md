@@ -5,7 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/laranex/better-laravel.svg?style=flat-square)](https://packagist.org/packages/laranex/better-laravel)
 [![License](https://img.shields.io/packagist/l/laranex/better-laravel.svg?style=flat-square)](LICENSE.md)
 
-Better Laravel gives Laravel applications a modular, job-driven structure: controllers serve features, features run jobs and operations, artisan generators create every unit and route files under `routes/web` and `routes/api` are loaded automatically. Built for humans and AI agents.
+Modular architecture for Laravel: modules for controllers, features and operations, and domains for jobs, with generators for each. Built for humans and AI agents.
 
 ## Documentation
 
