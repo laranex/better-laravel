@@ -1,16 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laranex\BetterLaravel\Generators;
 
 use Exception;
-use Illuminate\Support\Facades\File;
 use Laranex\BetterLaravel\Str;
 
 class OperationGenerator extends Generator
 {
     /**
-     * Generate a feature.
-     *
+     * Generate an operation inside a module and return the generated file path.
      *
      * @throws Exception
      */
@@ -19,15 +19,12 @@ class OperationGenerator extends Generator
         $operation = Str::operation($operation);
         $module = Str::module($module);
 
-        $directoryPath = app_path("Modules/{$module}/Operations");
-        $filename = "$operation.php";
-        $filePath = "$directoryPath/$filename";
+        $directoryPath = app_path("Modules/$module/Operations");
+        $filePath = "$directoryPath/$operation.php";
 
         $this->throwIfFileExists($filePath, $force);
 
-        $stubContents = $this->getStubContents();
-
-        $stubContents = $this->replacePlaceholders($stubContents, [
+        $stubContents = $this->replacePlaceholders($this->getStubContents(), [
             'namespace' => "App\\Modules\\$module\\Operations",
             'operation' => $operation,
         ]);
@@ -37,16 +34,8 @@ class OperationGenerator extends Generator
         return $filePath;
     }
 
-    /**
-     * Get the appropriate stub contents.
-     */
     public function getStubContents(): string
     {
-        $stubFile = resource_path('stubs/vendor/better-laravel/operation.php.stub');
-        if (! File::exists($stubFile)) {
-            $stubFile = __DIR__.'/../../resources/stubs/operation.php.stub';
-        }
-
-        return File::get($stubFile);
+        return $this->stub('operation.php');
     }
 }

@@ -1,16 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laranex\BetterLaravel\Generators;
 
 use Exception;
-use Illuminate\Support\Facades\File;
 use Laranex\BetterLaravel\Str;
 
 class JobGenerator extends Generator
 {
     /**
-     * Generate a job.
-     *
+     * Generate a job inside a domain and return the generated file path.
      *
      * @throws Exception
      */
@@ -19,16 +19,13 @@ class JobGenerator extends Generator
         $job = Str::job($job);
         $domain = Str::domain($domain);
 
-        $directoryPath = app_path("Domains/{$domain}/Jobs");
-        $filename = "{$job}.php";
-        $filePath = "{$directoryPath}/{$filename}";
+        $directoryPath = app_path("Domains/$domain/Jobs");
+        $filePath = "$directoryPath/$job.php";
 
         $this->throwIfFileExists($filePath, $force);
 
-        $stubContents = $this->getStubContents($queueable);
-
-        $stubContents = $this->replacePlaceholders($stubContents, [
-            'namespace' => "App\\Domains\\{$domain}\\Jobs",
+        $stubContents = $this->replacePlaceholders($this->getStubContents($queueable), [
+            'namespace' => "App\\Domains\\$domain\\Jobs",
             'job' => $job,
         ]);
 
@@ -37,18 +34,8 @@ class JobGenerator extends Generator
         return $filePath;
     }
 
-    /**
-     * Get the appropriate stub contents.
-     */
-    public function getStubContents(bool $queueable): string
+    public function getStubContents(bool $queueable = false): string
     {
-        $filePart = $queueable ? '.queueable' : '';
-
-        $stubFile = resource_path("stubs/vendor/better-laravel/job$filePart.php.stub");
-        if (! File::exists($stubFile)) {
-            $stubFile = __DIR__."/../../resources/stubs/job$filePart.php.stub";
-        }
-
-        return File::get($stubFile);
+        return $this->stub($queueable ? 'job.queueable.php' : 'job.php');
     }
 }

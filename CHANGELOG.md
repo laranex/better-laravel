@@ -2,6 +2,38 @@
 
 All notable changes to `better-laravel` will be documented in this file.
 
+## v4.0.0 - Unreleased
+
+Version 3 was skipped so that every Laranex package shares the same major version.
+
+### Changed
+- Requires PHP 8.1+ and supports Laravel 10 through 13.
+- Rebuilt on the official Laravel package skeleton (Pest, PHPStan level 7, Pint, Testbench workbench, GitHub Actions matrix) with a full test suite covering every command, the service provider and the bus traits.
+- `spatie/laravel-package-tools` was dropped; `BetterLaravelServiceProvider` is a plain `Illuminate\Support\ServiceProvider`. The publish tags are unchanged (`better-laravel-config`, `better-laravel-views`, `better-laravel-stubs`) and a `better-laravel` tag now publishes everything at once.
+- The package only requires the `illuminate/*` components it uses instead of `illuminate/contracts` alone.
+- Route files are registered during `boot()` instead of `register()`, so host configuration (including cached config) is honoured.
+- The `better:*` commands now exit with code `1` when generation fails (for example when the file exists and `--force` was not given) instead of always returning `0`.
+- `Commands\BaseCommand` is abstract and `Generators\Generator::getStubContents()` implementations share one stub lookup; a `JobGenerator::getStubContents()` call now defaults to the synchronous stub.
+- `Bus\UnitDispatcher::runInQueue()` is typed to return `Illuminate\Foundation\Bus\PendingDispatch` and no longer wraps the call in a dead `try/catch`.
+- `Laranex\BetterLaravel\Str` no longer overrides `studly()`; all helper parameters are typed `string`.
+- `BetterLaravel::getAllFilesOfADirectory()` returns the files sorted.
+- Every source file declares `strict_types`.
+
+### Fixed
+- The `job.queueable.php.stub` declared `__construct(): void`, which is a fatal error in generated jobs.
+- The disabled-routes warning named the wrong config key (`better-myanmar.enable_routes`); it now says `better-laravel.enable_routes`.
+- Generated route files import the `Route` facade explicitly.
+
+### Upgrading
+- Upgrade to PHP 8.1 or higher (8.2 is no longer the floor) and run `composer require laranex/better-laravel:^4.0`.
+- If you check the exit code of `better:*` commands in scripts, a failed generation is now `1`.
+- If you extended `Commands\BaseCommand` directly, it is now abstract: extend it from a concrete command rather than instantiating it.
+- If you called `Str::studly()` through `Laranex\BetterLaravel\Str` with a second argument, pass only the value (Laravel 13 adds its own `$normalize` parameter).
+- If you published the stubs before, republish them with `php artisan vendor:publish --tag="better-laravel-stubs" --force` to pick up the fixed queueable job stub.
+- Nothing else changes: the base classes (`Cores\Controller`, `Feature`, `Operation`, `Job`, `QueueableJob`, `Request`), the `serve()`, `run()` and `runInQueue()` methods, the command signatures, the config keys and the generated file locations are the same as in v2.
+
+---
+
 ## v2.0.0 - Mar 25, 2025
 
 ### Breaking Changes

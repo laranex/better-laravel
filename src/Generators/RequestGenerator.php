@@ -1,16 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laranex\BetterLaravel\Generators;
 
 use Exception;
-use Illuminate\Support\Facades\File;
 use Laranex\BetterLaravel\Str;
 
 class RequestGenerator extends Generator
 {
     /**
-     * Generate a job.
-     *
+     * Generate a form request inside a domain and return the generated file path.
      *
      * @throws Exception
      */
@@ -19,16 +19,13 @@ class RequestGenerator extends Generator
         $request = Str::request($request);
         $domain = Str::domain($domain);
 
-        $directoryPath = app_path("Domains/{$domain}/Requests");
-        $filename = "{$request}.php";
-        $filePath = "{$directoryPath}/{$filename}";
+        $directoryPath = app_path("Domains/$domain/Requests");
+        $filePath = "$directoryPath/$request.php";
 
         $this->throwIfFileExists($filePath, $force);
 
-        $stubContents = $this->getStubContents();
-
-        $stubContents = $this->replacePlaceholders($stubContents, [
-            'namespace' => "App\\Domains\\{$domain}\\Requests",
+        $stubContents = $this->replacePlaceholders($this->getStubContents(), [
+            'namespace' => "App\\Domains\\$domain\\Requests",
             'request' => $request,
         ]);
 
@@ -37,16 +34,8 @@ class RequestGenerator extends Generator
         return $filePath;
     }
 
-    /**
-     * Get the appropriate stub contents.
-     */
     public function getStubContents(): string
     {
-        $stubFile = resource_path('stubs/vendor/better-laravel/request.php.stub');
-        if (! File::exists($stubFile)) {
-            $stubFile = __DIR__.'/../../resources/stubs/request.php.stub';
-        }
-
-        return File::get($stubFile);
+        return $this->stub('request.php');
     }
 }

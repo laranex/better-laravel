@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laranex\BetterLaravel\Commands;
 
 use Laranex\BetterLaravel\Generators\OperationGenerator;
@@ -11,35 +13,27 @@ class OperationMakeCommand extends BaseCommand
      *
      * @var string
      */
-    public $signature = 'better:operation
+    protected $signature = 'better:operation
                         {operation : Operation}
-                        {domain : Domain}
+                        {module : Module}
                         {--F|force : Overwrite existing files}';
 
     /**
-     * The description the console command.
+     * The console command description.
      *
      * @var string
      */
-    public $description = 'Create a new operation in a domain';
+    protected $description = 'Create a new operation in a module';
 
     /**
      * Execute the console command.
      */
-    public function handle(): int
+    public function handle(OperationGenerator $generator): int
     {
-        try {
-            $operation = $this->argument('operation');
-            $domain = $this->argument('domain');
-            $force = $this->option('force');
-
-            $output = (new OperationGenerator)->generate($operation, $domain, $force);
-
-            $this->printFileGeneratedOutput($output);
-        } catch (\Exception $exception) {
-            $this->printFileGenerationErrorOutput($exception->getMessage());
-        }
-
-        return 0;
+        return $this->generate(fn (): string => $generator->generate(
+            $this->stringArgument('operation'),
+            $this->stringArgument('module'),
+            (bool) $this->option('force'),
+        ));
     }
 }

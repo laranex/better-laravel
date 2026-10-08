@@ -1,66 +1,102 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laranex\BetterLaravel;
 
-use App;
+use Illuminate\Contracts\Config\Repository as ConfigRepository;
+use Illuminate\Contracts\Foundation\CachesRoutes;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
 use Laranex\BetterLaravel\Commands\ControllerMakeCommand;
 use Laranex\BetterLaravel\Commands\FeatureMakeCommand;
 use Laranex\BetterLaravel\Commands\JobMakeCommand;
 use Laranex\BetterLaravel\Commands\OperationMakeCommand;
 use Laranex\BetterLaravel\Commands\RequestMakeCommand;
 use Laranex\BetterLaravel\Commands\RouteMakeCommand;
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class BetterLaravelServiceProvider extends PackageServiceProvider
+class BetterLaravelServiceProvider extends ServiceProvider
 {
-    public function configurePackage(Package $package): void
+    /**
+     * Register any application services.
+     */
+    public function register(): void
     {
-        $package
-            ->name('better-laravel')
-            ->hasConfigFile()
-            ->hasCommands([
-                RouteMakeCommand::class,
-                ControllerMakeCommand::class,
-                RequestMakeCommand::class,
-                FeatureMakeCommand::class,
-                OperationMakeCommand::class,
-                JobMakeCommand::class,
-            ])->hasViews('better-laravel');
-
-        $packageShortName = $package->shortName();
-        $this->publishes([
-            __DIR__.'/../resources/stubs' => resource_path("stubs/vendor/$packageShortName"),
-        ], "$packageShortName-stubs");
-
+        $this->mergeConfigFrom(dirname(__DIR__).'/config/better-laravel.php', 'better-laravel');
     }
 
-    public function packageRegistered(): void
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
     {
-        if (config('better-laravel.enable_routes') && ! App::routesAreCached()) {
+        $this->loadViewsFrom(dirname(__DIR__).'/resources/views', 'better-laravel');
+
+        if ($this->shouldRegisterRoutes()) {
             $this->registerRoutes();
         }
+
+        if (! $this->app->runningInConsole()) {
+            return;
+        }
+
+        $this->publishes([
+            dirname(__DIR__).'/config/better-laravel.php' => config_path('better-laravel.php'),
+        ], ['better-laravel', 'better-laravel-config']);
+
+        $this->publishes([
+            dirname(__DIR__).'/resources/views' => resource_path('views/vendor/better-laravel'),
+        ], ['better-laravel', 'better-laravel-views']);
+
+        $this->publishes([
+            dirname(__DIR__).'/resources/stubs' => resource_path('stubs/vendor/better-laravel'),
+        ], ['better-laravel', 'better-laravel-stubs']);
+
+        $this->commands([
+            RouteMakeCommand::class,
+            ControllerMakeCommand::class,
+            RequestMakeCommand::class,
+            FeatureMakeCommand::class,
+            OperationMakeCommand::class,
+            JobMakeCommand::class,
+        ]);
     }
 
+    /**
+     * Register every route file found under routes/web and routes/api.
+     */
     public function registerRoutes(): void
     {
-        $webRoutes = BetterLaravel::getAllFilesOfADirectory(base_path('routes/web'), 'php');
-        $apiRoutes = BetterLaravel::getAllFilesOfADirectory(base_path('routes/api'), 'php');
+        $webRoutesPrefix = $this->config('web_routes_prefix', '');
+        $apiRoutesPrefix = $this->config('api_routes_prefix', 'api');
 
-        $webRoutesPrefix = config('better-laravel.web_routes_prefix');
-        $apiRoutesPrefix = config('better-laravel.api_routes_prefix');
-
-        foreach ($webRoutes as $route) {
+        foreach (BetterLaravel::getAllFilesOfADirectory(base_path('routes/web'), 'php') as $route) {
             Route::middleware('web')
-                ->prefix($webRoutesPrefix)
+                ->prefix(is_string($webRoutesPrefix) ? $webRoutesPrefix : '')
                 ->group($route);
         }
 
-        foreach ($apiRoutes as $route) {
+        foreach (BetterLaravel::getAllFilesOfADirectory(base_path('routes/api'), 'php') as $route) {
             Route::middleware('api')
-                ->prefix($apiRoutesPrefix)
+                ->prefix(is_string($apiRoutesPrefix) ? $apiRoutesPrefix : '')
                 ->group($route);
         }
+    }
+
+    /**
+     * Routes are only registered when enabled and not already cached.
+     */
+    protected function shouldRegisterRoutes(): bool
+    {
+        if (! (bool) $this->config('enable_routes', true)) {
+            return false;
+        }
+
+        return ! ($this->app instanceof CachesRoutes && $this->app->routesAreCached());
+    }
+
+    protected function config(string $key, mixed $default = null): mixed
+    {
+        return $this->app->make(ConfigRepository::class)->get('better-laravel.'.$key, $default);
     }
 }

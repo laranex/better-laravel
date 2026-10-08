@@ -1,16 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laranex\BetterLaravel\Generators;
 
 use Exception;
-use Illuminate\Support\Facades\File;
 use Laranex\BetterLaravel\Str;
 
 class RouteGenerator extends Generator
 {
     /**
-     * Generate a route.
-     *
+     * Generate a route file under routes/{web|api}[/version] and return the generated file path.
      *
      * @throws Exception
      */
@@ -18,18 +18,14 @@ class RouteGenerator extends Generator
     {
         $route = Str::route($route);
         $versionOrDirectory = Str::directory($versionOrDirectory);
-
-        $versionOrDirectory = $versionOrDirectory ? "/$versionOrDirectory" : '';
+        $versionOrDirectory = $versionOrDirectory !== '' ? "/$versionOrDirectory" : '';
 
         $directoryPath = base_path("routes/$routeFileType$versionOrDirectory");
-        $filename = "$route.php";
-        $filePath = "$directoryPath/$filename";
+        $filePath = "$directoryPath/$route.php";
 
         $this->throwIfFileExists($filePath, $force);
 
-        $stubContents = $this->getStubContents();
-
-        $stubContents = $this->replacePlaceholders($stubContents, [
+        $stubContents = $this->replacePlaceholders($this->getStubContents(), [
             'route' => $route,
             'versionOrDirectory' => $versionOrDirectory,
         ]);
@@ -39,16 +35,8 @@ class RouteGenerator extends Generator
         return $filePath;
     }
 
-    /**
-     * Get the appropriate stub contents.
-     */
-    private function getStubContents(): string
+    public function getStubContents(): string
     {
-        $stubFile = resource_path('stubs/vendor/better-laravel/route.php.stub');
-        if (! File::exists($stubFile)) {
-            $stubFile = __DIR__.'/../../resources/stubs/route.php.stub';
-        }
-
-        return File::get($stubFile);
+        return $this->stub('route.php');
     }
 }
