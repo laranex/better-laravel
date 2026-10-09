@@ -25,6 +25,7 @@ Version 3 was skipped so that every Laranex package shares the same major versio
 - Generated route files import the `Route` facade explicitly.
 - Generator names containing `/` or `\` (for example `better:feature Blog/createPost Blog`) produced a class named `Blog/CreatePostFeature`; every `better:*` command now rejects them with a clear error and exit code `1`.
 - Generated route files no longer start their prefix with a slash (`'prefix' => 'v1/blogs'` instead of `'/v1/blogs'`). The route stub uses a new `{{prefix}}` placeholder; `{{route}}` and `{{versionOrDirectory}}` are still filled so previously published stubs keep working.
+- The feature stub's `handle()` declared a return type without returning anything, so a freshly generated feature threw a `TypeError` when served; it now returns `null` until you fill it in.
 
 ### Upgrading
 - Upgrade to PHP 8.1 or higher (8.2 is no longer the floor) and run `composer require laranex/better-laravel:^4.0`.
@@ -37,7 +38,7 @@ Version 3 was skipped so that every Laranex package shares the same major versio
 
 ---
 
-## v2.0.0 - Mar 25, 2025
+## v2.0.0 - 2026-03-25
 
 ### Breaking Changes
 
@@ -70,7 +71,7 @@ If you're using PHP 8.1, upgrade to PHP 8.2 or higher as the minimum requirement
 
 ---
 
-## v1.1.2 - Feb 03, 2025
+## v1.1.2 - 2026-02-03
 
 ### What's Changed
 
@@ -157,7 +158,7 @@ class CreateOrderFeature extends Feature
 
 ---
 
-## v1.1.1 - Oct 22, 2025
+## v1.1.1 - 2025-10-22
 
 ### What's Changed
 
