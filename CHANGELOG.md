@@ -10,7 +10,7 @@ Version 3 was skipped so that every Laranex package shares the same major versio
 - Requires PHP 8.1+ and supports Laravel 10 through 13.
 - Rebuilt on the official Laravel package skeleton (Pest, PHPStan level 7, Pint, Testbench workbench, GitHub Actions matrix) with a full test suite covering every command, the service provider and the bus traits.
 - `spatie/laravel-package-tools` was dropped; `BetterLaravelServiceProvider` is a plain `Illuminate\Support\ServiceProvider`. The publish tags are unchanged (`better-laravel-config`, `better-laravel-views`, `better-laravel-stubs`) and a `better-laravel` tag now publishes everything at once.
-- The package only requires the `illuminate/*` components it uses instead of `illuminate/contracts` alone.
+- The package requires `laravel/framework` (`^10.0||^11.0||^12.0||^13.0`) instead of `illuminate/contracts` alone, because it uses classes that ship only with the framework (`Illuminate\Foundation\Bus\DispatchesJobs`, `PendingDispatch`, `Http\FormRequest`, `Validation\ValidatesRequests`, `Inspiring`).
 - Route files are registered during `boot()` instead of `register()`, so host configuration (including cached config) is honored.
 - The `better:*` commands now exit with code `1` when generation fails (for example when the file exists and `--force` was not given) instead of always returning `0`.
 - `Commands\BaseCommand` is abstract and `Generators\Generator::getStubContents()` implementations share one stub lookup; a `JobGenerator::getStubContents()` call now defaults to the synchronous stub.
