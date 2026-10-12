@@ -23,7 +23,7 @@ Requires PHP 8.1+ and Laravel 10 to 13. The service provider and the `BetterLara
 
 ## Configure
 
-- Every PHP file under `routes/web` and `routes/api` is loaded automatically with the `web` / `api` middleware groups.
+- Every PHP file under `routes/web` and `routes/api` is loaded automatically with the `web` / `api` middleware groups. Until routes are cached the folders are scanned on every request, so run `php artisan route:cache` in production (cached routes are not scanned again).
 - `BETTER_LARAVEL_ENABLE_ROUTES` (default `true`): set to `false` to register the route files yourself.
 - `BETTER_LARAVEL_WEB_ROUTES_PREFIX` (default empty) and `BETTER_LARAVEL_API_ROUTES_PREFIX` (default `api`): URI prefixes for the two folders.
 - Publish only what you change: `php artisan vendor:publish --tag="better-laravel-config"`, `--tag="better-laravel-stubs"` (custom generator stubs are read from `resources/stubs/vendor/better-laravel`) or `--tag="better-laravel-views"`.

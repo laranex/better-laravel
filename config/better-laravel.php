@@ -13,6 +13,10 @@ return [
     | by the BetterLaravelServiceProvider with the "web" and "api" middleware
     | groups respectively. Disable it to register route files yourself.
     |
+    | Until the routes are cached the directories are scanned on every
+    | request, so run "php artisan route:cache" when you deploy to
+    | production; cached routes are never scanned or registered again.
+    |
     */
 
     'enable_routes' => env('BETTER_LARAVEL_ENABLE_ROUTES', true),

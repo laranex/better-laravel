@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -63,6 +64,25 @@ it('loads route files from nested routes/api directories with the api prefix and
         ->and($route?->gatherMiddleware())->toBe(['api']);
 
     $this->getJson('/api/v1/posts')->assertOk();
+});
+
+it('resolves the named routes of the loaded route files with route()', function () {
+    expect(route('better-laravel-fixture.blogs'))->toBe(url('blogs'))
+        ->and(route('better-laravel-fixture.posts'))->toBe(url('api/v1/posts'));
+});
+
+it('leaves refreshing the route name lookups to Laravel once the application has booted', function () {
+    $this->cleanUp(base_path('routes/web/late.php'));
+    file_put_contents(base_path('routes/web/late.php'), "<?php\n\nIlluminate\\Support\\Facades\\Route::get('late', fn () => 'late')->name('better-laravel-fixture.late');\n");
+
+    app(BetterLaravelServiceProvider::class, ['app' => app()])->registerRoutes();
+
+    expect(Route::has('better-laravel-fixture.late'))->toBeFalse();
+
+    app()->register(RouteServiceProvider::class, true);
+
+    expect(Route::has('better-laravel-fixture.late'))->toBeTrue()
+        ->and(route('better-laravel-fixture.late'))->toBe(url('late'));
 });
 
 /**
