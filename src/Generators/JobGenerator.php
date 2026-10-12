@@ -19,8 +19,8 @@ class JobGenerator extends Generator
         $this->ensureNameIsNotNested($job, 'job');
         $this->ensureNameIsNotNested($domain, 'domain');
 
-        $job = Str::job($job);
-        $domain = Str::domain($domain);
+        $job = $this->validIdentifier(Str::job($job), $job, 'job');
+        $domain = $this->validIdentifier(Str::domain($domain), $domain, 'domain');
 
         $directoryPath = app_path("Domains/$domain/Jobs");
         $filePath = "$directoryPath/$job.php";

@@ -19,8 +19,8 @@ class RequestGenerator extends Generator
         $this->ensureNameIsNotNested($request, 'request');
         $this->ensureNameIsNotNested($domain, 'domain');
 
-        $request = Str::request($request);
-        $domain = Str::domain($domain);
+        $request = $this->validIdentifier(Str::request($request), $request, 'request');
+        $domain = $this->validIdentifier(Str::domain($domain), $domain, 'domain');
 
         $directoryPath = app_path("Domains/$domain/Requests");
         $filePath = "$directoryPath/$request.php";

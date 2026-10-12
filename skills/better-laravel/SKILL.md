@@ -41,7 +41,7 @@ Run the commands with `--no-interaction`. Every command accepts `--force` to ove
 - `php artisan better:request {request} {domain}` → `app/Domains/{Domain}/Requests/{Name}Request.php`
 - `php artisan better:job {job} {domain} [--queue]` → `app/Domains/{Domain}/Jobs/{Name}Job.php` (`--queue` extends `QueueableJob`)
 
-Suffixes (`Controller`, `Feature`, `Job`, …) and the `Module` suffix are added automatically and `.php` is stripped. Names must not contain `/` or `\`; use `versionOrDirectory` for route subfolders.
+Suffixes (`Controller`, `Feature`, `Job`, …) and the `Module` suffix are added automatically and `.php` is stripped. Names must not contain `/` or `\` and must produce a valid PHP identifier (letters, numbers and underscores, not starting with a number); route names may only produce lowercase letters, numbers, `-` and `_`. Use `versionOrDirectory` for route subfolders: `/`-separated segments of lowercase letters, numbers, `-` and `_` (no `..`).
 
 ```bash
 php artisan better:route blog v1 --api --no-interaction
