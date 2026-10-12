@@ -19,7 +19,7 @@ Use this skill when a Laravel application uses `laranex/better-laravel`: classes
 composer require laranex/better-laravel
 ```
 
-Requires PHP 8.1+ and Laravel 10 to 13. The service provider and the `BetterLaravel` facade are auto-discovered.
+Requires PHP 8.1+ and Laravel 10 (10.48.29 or later) to 13. The service provider and the `BetterLaravel` facade are auto-discovered.
 
 ## Configure
 
