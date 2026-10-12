@@ -15,7 +15,8 @@ it('generates a web route file', function () {
 
     expect(file_get_contents($path))
         ->toContain("Route::group(['prefix' => 'articles']")
-        ->toContain("view('better-laravel::welcome')");
+        ->toContain("// Route::get('/', [YourController::class, 'index'])->name('articles.index');")
+        ->not->toContain('view(');
 });
 
 it('generates a versioned api route file with the --api option', function () {
@@ -51,14 +52,18 @@ it('warns when route loading is disabled', function () {
         ->assertExitCode(0);
 });
 
-it('generates a route file that Laravel can load', function () {
+it('generates a route file that Laravel can load without registering a public route', function () {
     $path = $this->cleanUp(base_path('routes/web/galleries.php'));
 
     $this->artisan('better:route', ['route' => 'gallery'])->assertExitCode(0);
 
+    $routes = count(Route::getRoutes()->getRoutes());
+
     Route::middleware('web')->group($path);
 
-    $this->get('/galleries')->assertOk()->assertSee('<title>Better Laravel</title>', false);
+    expect(Route::getRoutes()->getRoutes())->toHaveCount($routes);
+
+    $this->get('/galleries')->assertNotFound();
 });
 
 it('rejects a nested route name', function (string $route) {

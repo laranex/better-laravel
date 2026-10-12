@@ -13,9 +13,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => '{{prefix}}'], function () {
-
-    Route::get('/', function () {
-        return view('better-laravel::welcome');
-    });
-
+    // Route::get('/', [YourController::class, 'index'])->name('{{route}}.index');
 });

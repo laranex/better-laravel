@@ -30,7 +30,7 @@ it('registers every better:* command', function () {
 
 it('registers the better-laravel view namespace', function () {
     expect(View::exists('better-laravel::welcome'))->toBeTrue()
-        ->and(view('better-laravel::welcome')->render())->toContain('<title>Better Laravel</title>');
+        ->and(view('better-laravel::welcome')->render())->toContain('<title>Better Laravel</title>')->not->toContain('fonts.googleapis.com');
 });
 
 it('publishes the config, views and stubs under their own tags', function () {
