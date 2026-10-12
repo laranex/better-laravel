@@ -25,6 +25,7 @@ Version 3 was skipped so that every Laranex package shares the same major versio
 - Generated route files import the `Route` facade explicitly.
 - Generator names containing `/` or `\` (for example `better:feature Blog/createPost Blog`) produced a class named `Blog/CreatePostFeature`; every `better:*` command now rejects them with a clear error and exit code `1`.
 - Generated route files no longer start their prefix with a slash (`'prefix' => 'v1/blogs'` instead of `'/v1/blogs'`). The route stub uses a new `{{prefix}}` placeholder; `{{route}}` and `{{versionOrDirectory}}` are still filled so previously published stubs keep working.
+- Generator names must now produce a valid PHP identifier, and route names and `versionOrDirectory` segments may only use lowercase letters, numbers, `-` and `_` (so no `..`), so a name can no longer inject code into a stub or write outside its directory. Generated route files ship an empty route group instead of a public route rendering the welcome view, which no longer loads Google Fonts.
 - The feature stub's `handle()` declared a return type without returning anything, so a freshly generated feature threw a `TypeError` when served; it now returns `null` until you fill it in.
 
 ### Upgrading
